@@ -9,8 +9,10 @@ class CardPost extends HTMLElement {
     }
 
     attributeChangedCallback(propName, oldValue, newValue){
-        this[propName] = newValue;
-        this.render();
+        if (oldValue !== newValue) {
+            this[propName] = newValue;
+            this.render();
+        }
     }
 
     connectedCallback(){
@@ -37,8 +39,21 @@ class CardPost extends HTMLElement {
             image.src = this.getAttribute("imageUrl") || "";
             container.appendChild(image);
 
+            const button = document.createElement("button");
+            button.id = "delete-post";
+            button.innerText = "Delete";
+            button.addEventListener("click", () => deletePost());
+            container.appendChild(button);
+
         }
-    }
+
+        }
+
+        deletePost(){
+            const deleteEvent = new CustomEvent("delete-post", {
+                
+            })
+        }
 };
 
 customElements.define("card-post", CardPost);

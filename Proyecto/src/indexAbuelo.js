@@ -1,5 +1,4 @@
 import "./components/indexPadre.js";
-import { CardPost } from "./components/indexPadre.js";
 import { fetchData, createPost } from "./services/data.js";
 
 class AppContainer extends HTMLElement {
@@ -55,7 +54,7 @@ class AppContainer extends HTMLElement {
             const newPost = event.detail;
             try {
                 const createdPost = await createPost(newPost);
-                this.posts.push(createdPost);
+                this.posts.unshift(createdPost);
                 this.renderPosts();
             } catch (error) {
                 console.error("Error creating post:", error);

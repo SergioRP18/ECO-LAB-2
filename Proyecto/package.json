@@ -1,0 +1,20 @@
+{
+  "devDependencies": {
+    "serve": "^14.2.4"
+  },
+  "dependencies": {
+    "json-server": "^1.0.0-beta.3"
+  },
+  "name": "proyecto",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "serve src/",
+    "start-server": "npx json-server --port 3004 db.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

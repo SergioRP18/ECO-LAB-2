@@ -20,19 +20,21 @@ class CardPost extends HTMLElement {
     render(){
         if(this.shadowRoot){
 
+            this.shadowRoot.innerHTML = '';
+
             const container = document.createElement("div");
             this.shadowRoot.appendChild(container);
 
             const title = document.createElement("h1");
-            title.innerText = this.title;
+            title.innerText = this.getAttribute("title") || "";
             container.appendChild(title);
 
             const body = document.createElement("p");
-            body.innerText = this.body;
-            container.appendChild(title);
+            body.innerText = this.getAttribute("body") || "";
+            container.appendChild(body);
 
             const image = document.createElement("img");
-            image.src = this.imageUrl;
+            image.src = this.getAttribute("imageUrl") || "";
             container.appendChild(image);
 
         }

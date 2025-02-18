@@ -37,6 +37,25 @@ class FormUser extends HTMLElement {
             const createPost = document.createElement("button");
             createPost.type = "submit";
             createPost.innerText = "public POST";
+            createPost.addEventListener("click", () => {
+                const imageUrl = inputImageUrl.value;
+                const title = inputTitle.value;
+                const body = inputDescription.value;
+
+                if (imageUrl && title && body) {
+                    this.dispatchEvent(new CustomEvent("create-post", {
+                        detail: { imageUrl, title, body },
+                    }));
+
+                    inputImageUrl.value = "";
+                    inputTitle.value = "";
+                    inputDescription.value = "";
+
+                    dialog.close();
+                } else {
+                    alert("Por favor, completa todos los campos.");
+                }
+            });
             dialog.appendChild(createPost);
 
             const list = document.createElement("button");

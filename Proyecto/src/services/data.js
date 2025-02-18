@@ -33,5 +33,20 @@ const fetchData = async () => {
     }
 };
 
-export {fetchData, createPost};
+  const deletePost = async (postId) => {
+  try {
+      const response = await fetch(`http://localhost:3004/posts/${postId}`, {
+          method: "DELETE",
+      });
+      if (!response.ok) {
+          throw new Error("Error deleting post");
+      }
+      return true;
+  } catch (error) {
+      console.error("Error deleting post:", error);
+      throw error;
+  }
+};
+
+export {fetchData, createPost, deletePost};
   

@@ -1,3 +1,5 @@
+import { deletePost } from "../../services/data.js";
+
 class CardPost extends HTMLElement {
     constructor(){
         super();
@@ -5,7 +7,7 @@ class CardPost extends HTMLElement {
     };
 
     static get observedAttributes(){
-        return ["title","body","imageUrl"];
+        return ["title","body","imageUrl", "id"];
     }
 
     attributeChangedCallback(propName, oldValue, newValue){
@@ -42,18 +44,26 @@ class CardPost extends HTMLElement {
             const button = document.createElement("button");
             button.id = "delete-post";
             button.innerText = "Delete";
-            button.addEventListener("click", () => deletePost());
+            button.addEventListener("click", () => this.deletePost());
             container.appendChild(button);
 
         }
 
-        }
+    }
 
-        deletePost(){
-            const deleteEvent = new CustomEvent("delete-post", {
-                
-            })
+    deletePost() {
+        const postId = this.getAttribute("id");
+        if (!postId) {
+            console.error("postId no está definido");
+            return;
         }
+        const deleteEvent = new CustomEvent("delete-post", {
+            bubbles: true,
+            composed: true,
+            detail: { postId },
+        });
+        this.dispatchEvent(deleteEvent);
+    }
 };
 
 customElements.define("card-post", CardPost);

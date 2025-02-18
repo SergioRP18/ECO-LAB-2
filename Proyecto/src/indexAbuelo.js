@@ -1,5 +1,5 @@
 import "./components/indexPadre.js";
-import { fetchData, createPost } from "./services/data.js";
+import { fetchData, createPost, deletePost } from "./services/data.js";
 
 class AppContainer extends HTMLElement {
     constructor() {
@@ -63,7 +63,7 @@ class AppContainer extends HTMLElement {
         this.shadowRoot.appendChild(formUser);
     }
 
-    renderPosts() {
+    async renderPosts() {
         const oldPostContainer = this.shadowRoot.querySelector(".post-container");
         if (oldPostContainer) {
             oldPostContainer.remove();
@@ -79,10 +79,31 @@ class AppContainer extends HTMLElement {
             cardPost.setAttribute("title", post.title);
             cardPost.setAttribute("body", post.body);
             cardPost.setAttribute("imageUrl", post.imageUrl);
+            cardPost.setAttribute("id", post.id);
+
+            cardPost.addEventListener("delete-post", (event) => {
+                const postId = event.detail.postId;
+                this.handleDeletePost(postId);   
+            });
+
             postContainer.appendChild(cardPost);
+            
         });
 
         this.shadowRoot.appendChild(postContainer);
+    }
+
+    async handleDeletePost(postId) {
+        try {
+            await deletePost(postId);
+            const postIndex = this.posts.findIndex((post) => post.id === postId);
+            if (postIndex !== -1) {
+                this.posts.splice(postIndex, 1);
+                this.renderPosts();
+            }
+        } catch (error) {
+            console.error("Error deleting post:", error);
+        }
     }
 }
 
